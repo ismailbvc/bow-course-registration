@@ -1,0 +1,43 @@
+## routes
+
+/
+    - GET
+
+/admin/login
+    - GET
+    - POST
+
+/admin/programs
+    - GET
+
+/admin/programs/:id/courses
+    - GET [search=*?]
+    - POST
+    - PUT
+    - DELETE
+
+/admin/programs/:id/students
+    - GET
+
+/admin/inquiries
+    - GET
+
+/learner/login
+    - GET
+    - POST
+
+/learner/signup
+    - GET
+    - POST
+
+/learner/programs
+    - GET
+    - POST
+
+/learner/programs/:id/courses
+    - GET [search=*?]
+    - POST
+
+/learner/inquiries
+    - GET
+    - PUT
