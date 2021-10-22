@@ -1,8 +1,16 @@
 import { combineReducers } from 'redux'
 
-const authUser = (state={user: undefined}, action) =>
+const authLearner = (state={user: undefined}, action) =>
 {
   if ( 'AUTH_USER' == action.type )
+    return action.payload.user
+
+  return state
+}
+
+const authAdmin = (state={user: undefined}, action) =>
+{
+  if ( 'AUTH_USER_2' == action.type )
     return action.payload.user
 
   return state
@@ -20,6 +28,7 @@ const alerts = (state=[], action) =>
 }
 
 export default combineReducers({
-  authUser,
+  authLearner,
+  authAdmin,
   alerts,
 })
