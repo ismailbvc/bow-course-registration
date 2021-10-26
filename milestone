@@ -12,9 +12,11 @@
 
 /admin/programs/:id/courses
     - GET [search=*?]
-    - POST
-    - PUT
     - DELETE
+
+/admin/programs/:id/courses/:cid
+    - GET
+    - PUT
 
 /admin/programs/:id/students
     - GET

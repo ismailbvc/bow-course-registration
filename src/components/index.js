@@ -8,8 +8,12 @@ import Header from './misc/Header'
 import Home from './Home'
 import Login from './Login'
 
+import AdminPrograms from './admin/Programs'
+import AdminCourses from './admin/Courses'
+import CourseCreate from './admin/CourseCreate'
+
 import { setAuthLearner, setAuthAdmin, setAlerts } from '../redux/actions'
-import { HashRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { getAuthLearner, getAuthAdmin } from './../appdata'
 
 class App extends React.Component
@@ -53,29 +57,35 @@ class App extends React.Component
         <div className="m-auto max-w-md w-full p-4">
           <Switch>
             <Route path='/' exact component={Home} />
-            <Route path='/admin/login' exact render={ props => <Login {...props} data_key='Admin' /> } />
+            <Route path='/admin/login' exact render={ props => <Login {...this.props} {...props} data_key='Admin' /> } />
             { !! authAdmin
-              ? <Route path='/admin/programs' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/admin/programs' exact render={ props => <AdminPrograms {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/programs' from='/admin/programs' /> }
             { !! authAdmin
-              ? <Route path='/admin/programs/:id/courses' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/admin/programs/:id/courses' exact render={ props => <AdminCourses {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/programs/:id/courses' from='/admin/programs/:id/courses' /> }
             { !! authAdmin
-              ? <Route path='/admin/programs/:id/students' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/admin/programs/:id/courses/create' exact render={ props => <CourseCreate {...this.props} {...props} /> } />
+              : <Redirect to='/admin/login?next=/admin/programs/:id/courses/create' from='/admin/programs/:id/courses/create' /> }
+            { !! authAdmin
+              ? <Route path='/admin/programs/:id/courses/edit/:cid' exact render={ props => <CourseCreate {...this.props} {...props} /> } />
+              : <Redirect to='/admin/login?next=/admin/programs/:id/courses/edit/:cid' from='/admin/programs/:id/courses/edit/:cid' /> }
+            { !! authAdmin
+              ? <Route path='/admin/programs/:id/students' exact render={ props => <Mock {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/programs/:id/students' from='/admin/programs/:id/students' /> }
             { !! authAdmin
-              ? <Route path='/admin/inquiries' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/admin/inquiries' exact render={ props => <Mock {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/inquiries' from='/admin/inquiries' /> }
-            <Route path='/learner/login' exact render={ props => <Login {...props} data_key='Learner' /> } />
-            <Route path='/learner/signup' exact render={ props => <Mock {...props} /> } />
+            <Route path='/learner/login' exact render={ props => <Login {...this.props} {...props} data_key='Learner' /> } />
+            <Route path='/learner/signup' exact render={ props => <Mock {...this.props} {...props} /> } />
             { !! authLearner
-              ? <Route path='/learner/programs' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/learner/programs' exact render={ props => <Mock {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/programs' from='/learner/programs' /> }
             { !! authLearner
-              ? <Route path='/learner/programs/:id/courses' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/learner/programs/:id/courses' exact render={ props => <Mock {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/programs/:id/courses' from='/learner/programs/:id/courses' /> }
             { !! authLearner
-              ? <Route path='/learner/inquiries' exact render={ props => <Mock {...props} /> } />
+              ? <Route path='/learner/inquiries' exact render={ props => <Mock {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/inquiries' from='/learner/inquiries' /> }
             <Route render={ props => <div>404 - page not found</div> } />
           </Switch>

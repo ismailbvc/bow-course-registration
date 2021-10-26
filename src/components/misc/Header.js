@@ -7,7 +7,7 @@ export default (props) => <div className="py-5 text-white w-full bg-teal-dark">
       <span className="text-lg">Bow Course Registration</span>
     </Link>
 
-    <nav id="main" className="text-sm">
+    <nav id="main" className="text-sm -my-2">
       { !! props.authAdmin.user && <UserIcon user={props.authAdmin.user} data_key='Admin' setAuthUser={props.setAuthAdmin} /> }
       { !! props.authLearner.user && <UserIcon user={props.authLearner.user} data_key='Learner' setAuthUser={props.setAuthLearner} /> }
     </nav>
@@ -15,9 +15,9 @@ export default (props) => <div className="py-5 text-white w-full bg-teal-dark">
 </div>
 
 const UserIcon = ( { user, data_key, setAuthUser } ) => <React.Fragment>
-  <small className="table ml-auto uppercase tracking-wide">
+  <small className="table ml-auto uppercase tracking-wide my-2">
     { [ user.first_name, user.last_name ].filter(Boolean).join(' ') }
     <span className="mr-2"> / {data_key}</span>
-    <a onClick={e => setAuthUser({ user: null })} className="text-white underline cursor-pointer capitalize">Log out?</a>
+    <a onClick={e => setAuthUser({ user: null })} className="border cursor-pointer hover:bg-white hover:text-black px-2 rounded-sm text-white">Log out</a>
   </small>
 </React.Fragment>

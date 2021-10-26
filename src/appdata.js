@@ -24,8 +24,146 @@ export const ADMINS = [
   }
 ]
 
+export const PROGRAMS = [
+  {
+    id: 1,
+    code: 'IT',
+    name: 'Information Technology',
+  },
+  {
+    id: 2,
+    code: 'MGMT',
+    name: 'Project Management',
+  }
+]
+
 export const COURSES = [
-  
+  {
+    id: 1,
+    name: 'Project management1',
+    code: 'Pr111',
+    term: 1,
+    start_date: '2021-09-01',
+    end_date: '2021-12-24',
+    program_id: 1,
+  },
+  {
+    id: 2,
+    name: 'C++ Programming Fundamentals',
+    code: 'C++111',
+    term: 1,
+    start_date: '2021-09-01',
+    end_date: '2021-12-24',
+    program_id: 1,
+  },
+  {
+    id: 3,
+    name: 'Computer Maintenance',
+    code: 'CompM1111',
+    term: 1,
+    start_date: '2021-09-01',
+    end_date: '2021-12-24',
+    program_id: 1,
+  },
+  {
+    id: 4,
+    name: 'Information Security1',
+    code: 'IS1111',
+    term: 1,
+    start_date: '2021-09-01',
+    end_date: '2021-12-24',
+    program_id: 1,
+  },
+  {
+    id: 5,
+    name: 'Networking',
+    code: 'Net222',
+    term: 2,
+    start_date: '2022-01-01',
+    end_date: '2022-04-24',
+    program_id: 1,
+  },
+  {
+    id: 6,
+    name: 'Web technology',
+    code: 'Web222',
+    term: 2,
+    start_date: '2022-01-01',
+    end_date: '2022-04-24',
+    program_id: 1,
+  },
+  {
+    id: 7,
+    name: 'Project Management',
+    code: 'Pro222',
+    term: 2,
+    start_date: '2022-01-01',
+    end_date: '2022-04-24',
+    program_id: 1,
+  },
+  {
+    id: 8,
+    name: 'Advanced Project management1',
+    code: 'Pr333',
+    term: 3,
+    start_date: '2022-09-01',
+    end_date: '2022-12-24',
+    program_id: 1,
+  },
+  {
+    id: 9,
+    name: 'Advanced C++ Programming Fundamentals',
+    code: 'C++333',
+    term: 3,
+    start_date: '2022-09-01',
+    end_date: '2022-12-24',
+    program_id: 1,
+  },
+  {
+    id: 10,
+    name: 'Advanced Computer Maintenance',
+    code: 'CompM333',
+    term: 3,
+    start_date: '2022-09-01',
+    end_date: '2022-12-24',
+    program_id: 1,
+  },
+  {
+    id: 11,
+    name: 'Advanced Information Security1',
+    code: 'IS333',
+    term: 3,
+    start_date: '2022-09-01',
+    end_date: '2022-12-24',
+    program_id: 1,
+  },
+  {
+    id: 12,
+    name: 'Advanced Networking',
+    code: 'Net222',
+    term: 4,
+    start_date: '2023-01-01',
+    end_date: '2023-04-24',
+    program_id: 1,
+  },
+  {
+    id: 13,
+    name: 'Advanced Web technology',
+    code: 'Web222',
+    term: 4,
+    start_date: '2023-01-01',
+    end_date: '2023-04-24',
+    program_id: 1,
+  },
+  {
+    id: 14,
+    name: 'Advanced Project Management',
+    code: 'Pro222',
+    term: 4,
+    start_date: '2023-01-01',
+    end_date: '2023-04-24',
+    program_id: 1,
+  },
 ]
 
 // fake latency for api calls
@@ -38,4 +176,45 @@ export const verifyLogin = async ( username, password, data_key ) =>
 {
   const users = 'Learner' == data_key ? LEARNERS : ( 'Admin' == data_key ? ADMINS : [] )
   return latency(1000, users.find( u => u.username == username && u.password == password ))
+}
+
+export const getProgramsList = () => latency(500, PROGRAMS)
+
+export const getProgramById = (id) => latency(500, PROGRAMS.find(p => p.id == id))
+
+export const getProgramCourses = ( program_id, search ) =>  latency(500, COURSES
+  .filter(c => c.program_id == program_id)
+  .filter(c => search ? -1 != [c.name, c.code].join(' ').toLowerCase().indexOf(search.toLowerCase()) : true))
+
+export const deleteCourse = async (id) =>
+{
+  await latency(500)
+  const index = COURSES.findIndex(c => c.id == id)
+  return index != -1 ? (COURSES.splice(index, 1), true) : false
+}
+
+export const insertCourse = async (name, code, term, start_date, end_date, program_id) =>
+{
+  COURSES.push({
+    id: Math.max(...COURSES.map(x => x.id)) +1,
+    name, code, term, start_date, end_date, program_id,
+  })
+
+  return await latency(500, true)
+}
+
+export const getCourseById = (id) => latency(500, COURSES.find(c => c.id == id))
+
+export const updateCourse = async (id, name, code, term, start_date, end_date, program_id) =>
+{
+  const course = await getCourseById(id)
+
+  if ( ! course )
+    return false
+
+  COURSES[COURSES.findIndex(c => c.id == id)] = Object.assign(course, {
+    name, code, term, start_date, end_date, program_id,
+  })
+
+  return true
 }

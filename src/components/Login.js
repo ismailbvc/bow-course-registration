@@ -52,7 +52,7 @@ class Login extends React.Component
     } else {
       this.setState({ loading: undefined })
       this.props.setAlerts([{
-        text: `Error: invalid credentials.`,
+        text: `Error: invalid credentials. Test with credentials: user / pass`,
         type: 'login',
       }])
     }
@@ -69,17 +69,29 @@ class Login extends React.Component
             <p className="w-full">
               <label className="table text-sm w-full px-4 mb-3">
                 <span className="mb-1 table text-grey-darkest">Username</span>
-                <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full" type="text" value={username||''} onChange={e => this.setState({ username: e.target.value })} ref={usernameRef} disabled={!!loading} />
+                <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full"
+                  type="text"
+                  value={username||''}
+                  onChange={e => this.setState({ username: e.target.value })}
+                  ref={usernameRef}
+                  disabled={!!loading} />
               </label>
 
               <label className="table text-sm w-full px-4 mb-3">
                 <span className="mb-1 table text-grey-darkest">Password</span>
-                <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full" type="password" value={password||''} onChange={e => this.setState({ password: e.target.value })} ref={passwordRef} disabled={!!loading} />
+                <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full"
+                  type="password"
+                  value={password||''}
+                  onChange={e => this.setState({ password: e.target.value })}
+                  ref={passwordRef}
+                  disabled={!!loading} />
               </label>
 
               <label className="table text-sm w-full px-4 mb-2">
                 <input className={`border border-transparent cursor-pointer leading-tight px-3 py-2 rounded text-grey-darker text-white w-full focus:border-teal-dark focus:bg-white focus:text-teal-dark ${loading ? 'bg-grey' : 'bg-teal hover:border-teal-dark hover:bg-white hover:text-teal-dark'}`}
-                  type="submit" value="Sign In" disabled={!!loading} />
+                  type="submit"
+                  value="Sign In"
+                  disabled={!!loading} />
               </label>
             </p>
           </form>
