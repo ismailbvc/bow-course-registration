@@ -2,13 +2,15 @@
 // calls to the API on the backend stage.
 export const LEARNERS = [
   {
+    studentID: 1,
     first_name: 'Ismail',
     last_name: 'El',
-    email: 'elhardoum@outlook.com',
+    email: 'i@example.com',
     phone: '5870000000',
-    dob: 'Oct 10, 1993',
+    dob: 'Oct 19, 1993',
     department: 'Information Technology Services',
-    program: 'IT',
+    program_id: 1,
+    courses: [],
     username: 'user',
     password: 'pass',
   }
@@ -18,7 +20,7 @@ export const ADMINS = [
   {
     first_name: 'Ismail',
     last_name: 'El',
-    email: 'elhardoum@outlook.com',
+    email: 'i@example.com',
     username: 'user',
     password: 'pass',
   }
@@ -166,6 +168,21 @@ export const COURSES = [
   },
 ]
 
+export const INQUIRIES = [
+  {
+    id: 1,
+    studentID: 1,
+    subject: 'Test Inquiry',
+    message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  },
+  {
+    id: 2,
+    studentID: 1,
+    subject: 'Test Inquiry 2',
+    message: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
+  }
+]
+
 // fake latency for api calls
 const latency = ( ms, ...args ) => new Promise(resolve => setTimeout(resolve, ms, ...args))
 
@@ -190,13 +207,14 @@ export const deleteCourse = async (id) =>
 {
   await latency(500)
   const index = COURSES.findIndex(c => c.id == id)
+
   return index != -1 ? (COURSES.splice(index, 1), true) : false
 }
 
 export const insertCourse = async (name, code, term, start_date, end_date, program_id) =>
 {
   COURSES.push({
-    id: Math.max(...COURSES.map(x => x.id)) +1,
+    id: COURSES.length ? Math.max(...COURSES.map(x => x.id)) +1 : 1,
     name, code, term, start_date, end_date, program_id,
   })
 
@@ -218,3 +236,10 @@ export const updateCourse = async (id, name, code, term, start_date, end_date, p
 
   return true
 }
+
+export const getProgramLearners = program_id => latency(500, LEARNERS.filter(u => u.program_id == program_id))
+
+export const getInquiriesList = () => latency(500, INQUIRIES.map(form => ({
+  ...form,
+  student: LEARNERS.find(l => l.studentID == form.studentID) || {}
+})))

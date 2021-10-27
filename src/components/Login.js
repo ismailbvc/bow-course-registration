@@ -17,6 +17,11 @@ class Login extends React.Component
     // check if user logged in    
     const { user } = this.props[`auth${this.props.data_key}`]
     user && this.redirect()
+
+    this.props.setAlerts([{
+      text: <span>You may use these test credentials:<br/> - username: user<br/> - password: pass</span>,
+      type: 'login',
+    }])
   }
 
   redirect()
@@ -52,7 +57,7 @@ class Login extends React.Component
     } else {
       this.setState({ loading: undefined })
       this.props.setAlerts([{
-        text: `Error: invalid credentials. Test with credentials: user / pass`,
+        text: `Error: invalid credentials.`,
         type: 'login',
       }])
     }
@@ -68,7 +73,7 @@ class Login extends React.Component
           <form className="w-full" onSubmit={this.submit.bind(this)}>
             <p className="w-full">
               <label className="table text-sm w-full px-4 mb-3">
-                <span className="mb-1 table text-grey-darkest">Username</span>
+                <strong className="mb-1 table text-grey-darkest">Username</strong>
                 <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full"
                   type="text"
                   value={username||''}
@@ -78,7 +83,7 @@ class Login extends React.Component
               </label>
 
               <label className="table text-sm w-full px-4 mb-3">
-                <span className="mb-1 table text-grey-darkest">Password</span>
+                <strong className="mb-1 table text-grey-darkest">Password</strong>
                 <input className="border focus:border-teal-dark focus:outline-none leading-tight px-3 py-2 rounded text-grey-darker w-full"
                   type="password"
                   value={password||''}

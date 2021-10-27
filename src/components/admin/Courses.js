@@ -11,18 +11,24 @@ export default class Courses extends React.Component
   async componentDidMount()
   {
     document.title = 'Courses'
+    this.MOUNTED = true
 
     const program_id = +this.props.match.params.id
         , program = program_id > 0 ? await getProgramById( program_id ) : null
         , courses = program && program.code ? await getProgramCourses( program.id ) : []
 
-    this.setState({ program, courses })
+    this.MOUNTED && this.setState({ program, courses })
 
     if ( program && program.name ) {
       document.title = `Courses - ${program.name}`
     } else {
       this.props.setAlerts([{ text: `Error: program not found.` }])
     }
+  }
+
+  componentWillUnmount()
+  {
+    this.MOUNTED = false
   }
 
   search()

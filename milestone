@@ -1,45 +1,45 @@
 ## routes
 
-/
+[x] - /
     - GET
 
-/admin/login
+[x] - /admin/login
     - GET
     - POST
 
-/admin/programs
+[x] - /admin/programs
     - GET
 
-/admin/programs/:id/courses
+[x] - /admin/programs/:id/courses
     - GET [search=*?]
     - DELETE
 
-/admin/programs/:id/courses/:cid
+[x] - /admin/programs/:id/courses/:cid
     - GET
     - PUT
 
-/admin/programs/:id/students
+[x] - /admin/programs/:id/students
     - GET
 
-/admin/inquiries
+[x] - /admin/inquiries
     - GET
 
-/learner/login
-    - GET
-    - POST
-
-/learner/signup
+[x] - /learner/login
     - GET
     - POST
 
-/learner/programs
+[ ] - /learner/signup
     - GET
     - POST
 
-/learner/programs/:id/courses
+[ ] - /learner/programs
+    - GET
+    - POST
+
+[ ] - /learner/programs/:id/courses
     - GET [search=*?]
     - POST
 
-/learner/inquiries
+[ ] - /learner/inquiries
     - GET
     - PUT

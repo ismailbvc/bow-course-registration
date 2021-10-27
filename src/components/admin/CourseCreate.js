@@ -12,6 +12,8 @@ export default class CoursesCreate extends React.Component
 {
   async componentDidMount()
   {
+    this.MOUNTED = true
+
     const edit_id = this.props.match.params.cid
 
     document.title = edit_id ? 'Edit Course' : 'Create Course'
@@ -20,7 +22,7 @@ export default class CoursesCreate extends React.Component
         , program = program_id > 0 ? await getProgramById( program_id ) : null
         , course = edit_id && +edit_id > 0 ? await getCourseById(+edit_id) : null
 
-    this.setState({ program, course })
+    this.MOUNTED && this.setState({ program, course })
 
     if ( program && program.name ) {
       document.title = `${edit_id ? 'Edit' : 'Create'} Course - ${program.name}`
@@ -32,7 +34,7 @@ export default class CoursesCreate extends React.Component
       if ( ! course ) {
         this.props.setAlerts([{ text: `Error: course not found.` }])
       } else {
-        this.setState({
+        this.MOUNTED && this.setState({
           name: course.name,
           code: course.code,
           term: String(course.term),
@@ -41,6 +43,11 @@ export default class CoursesCreate extends React.Component
         })
       }
     }
+  }
+
+  componentWillUnmount()
+  {
+    this.MOUNTED = false
   }
 
   async submit(e)
@@ -151,12 +158,13 @@ export default class CoursesCreate extends React.Component
                   disabled={!!loading} ref={endDateRef} />
               </label>
 
-              <label className="table text-sm w-full mt-6">
+              <span className="flex items-center text-sm mt-6">
                 <input className={`border border-transparent cursor-pointer leading-tight px-4 py-2 rounded text-grey-darker text-white focus:border-teal-dark focus:bg-white focus:text-teal-dark ${loading ? 'bg-grey' : 'bg-teal hover:border-teal-dark hover:bg-white hover:text-teal-dark'}`}
                   type="submit"
                   value={`${edit_id ? 'Update' : 'Submit'} Course`}
                   disabled={!!loading} />
-              </label>
+                  <Link to={`/admin/programs/${program.id}/courses`} className="text-teal-dark ml-4">Cancel</Link>
+              </span>
             </p>
           </form> }
       </div>

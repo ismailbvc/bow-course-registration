@@ -9,7 +9,14 @@ export default class Programs extends React.Component
   async componentDidMount()
   {
     document.title = 'Programs'
-    this.setState({ programs: await getProgramsList() })
+    this.MOUNTED = true
+    const programs = await getProgramsList()
+    this.MOUNTED && this.setState({ programs })
+  }
+
+  componentWillUnmount()
+  {
+    this.MOUNTED = false
   }
 
   render()

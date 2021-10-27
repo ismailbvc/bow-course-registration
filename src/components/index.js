@@ -11,6 +11,8 @@ import Login from './Login'
 import AdminPrograms from './admin/Programs'
 import AdminCourses from './admin/Courses'
 import CourseCreate from './admin/CourseCreate'
+import Students from './admin/Students'
+import Inquiries from './admin/Inquiries'
 
 import { setAuthLearner, setAuthAdmin, setAlerts } from '../redux/actions'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -20,13 +22,6 @@ class App extends React.Component
 {
   componentDidMount()
   {
-    // auth state
-    this.props.authLearner.user || new Promise(async resolve =>
-      this.props.setAuthLearner({ user: await getAuthLearner() }))
-
-    this.props.authAdmin.user || new Promise(async resolve =>
-      this.props.setAuthAdmin({ user: await getAuthAdmin() }))
-
     // add suffix to titles
     const titleSetter = document.__lookupSetter__('title'), titleGetter = document.__lookupGetter__('title')
     Object.defineProperty(document, 'title', {
@@ -36,6 +31,13 @@ class App extends React.Component
         return titleSetter.apply(document, arguments)
       },
     })
+
+    // auth state
+    this.props.authLearner.user || new Promise(async resolve =>
+      this.props.setAuthLearner({ user: await getAuthLearner() }))
+
+    this.props.authAdmin.user || new Promise(async resolve =>
+      this.props.setAuthAdmin({ user: await getAuthAdmin() }))
   }
 
   render()
@@ -56,7 +58,7 @@ class App extends React.Component
 
         <div className="m-auto max-w-md w-full p-4">
           <Switch>
-            <Route path='/' exact component={Home} />
+            <Route path='/' exact render={ props => <Home {...this.props} {...props} /> } />
             <Route path='/admin/login' exact render={ props => <Login {...this.props} {...props} data_key='Admin' /> } />
             { !! authAdmin
               ? <Route path='/admin/programs' exact render={ props => <AdminPrograms {...this.props} {...props} /> } />
@@ -71,10 +73,10 @@ class App extends React.Component
               ? <Route path='/admin/programs/:id/courses/edit/:cid' exact render={ props => <CourseCreate {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/programs/:id/courses/edit/:cid' from='/admin/programs/:id/courses/edit/:cid' /> }
             { !! authAdmin
-              ? <Route path='/admin/programs/:id/students' exact render={ props => <Mock {...this.props} {...props} /> } />
+              ? <Route path='/admin/programs/:id/students' exact render={ props => <Students {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/programs/:id/students' from='/admin/programs/:id/students' /> }
             { !! authAdmin
-              ? <Route path='/admin/inquiries' exact render={ props => <Mock {...this.props} {...props} /> } />
+              ? <Route path='/admin/inquiries' exact render={ props => <Inquiries {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/inquiries' from='/admin/inquiries' /> }
             <Route path='/learner/login' exact render={ props => <Login {...this.props} {...props} data_key='Learner' /> } />
             <Route path='/learner/signup' exact render={ props => <Mock {...this.props} {...props} /> } />
@@ -90,8 +92,6 @@ class App extends React.Component
             <Route render={ props => <div>404 - page not found</div> } />
           </Switch>
         </div>
-
-        { /* @todo readonly notice */ }
 
         <div className="fixed w-full" style={{ left: 4, bottom: 4, marginRight: 4, zIndex: 999, paddingRight: 8 }}>
           { alerts.filter(x => ! x.skip_main_ui).map((alert, i) =>
