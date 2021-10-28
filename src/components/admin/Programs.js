@@ -40,7 +40,7 @@ export default class Programs extends React.Component
           <tbody>
             { programs.sort((a,b) => a.id - b.id).map((program,i) => <tr key={i} className={`text-xs break-words px-4 py-4 ${i%2 ? 'bg-grey-lightest' : 'bg-grey-lighter'}`}>
               <td className="p-2">{ program.name }</td>
-              <td className="p-2">{ program.name }</td>
+              <td className="p-2">{ program.code }</td>
               <td className="p-2">
                 <Link to={`/admin/programs/${program.id}/courses`} className="text-teal-dark cursor-pointer table">Manage Courses</Link>
                 <Link to={`/admin/programs/${program.id}/students`} className="text-teal-dark cursor-pointer table">Enrolled Students</Link>

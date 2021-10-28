@@ -14,6 +14,12 @@ import CourseCreate from './admin/CourseCreate'
 import Students from './admin/Students'
 import Inquiries from './admin/Inquiries'
 
+import MyInquiries from './learner/MyInquiries'
+import NewInquiry from './learner/NewInquiry'
+import LearnerPrograms from './learner/Programs'
+import LearnerCourses from './learner/Courses'
+import Signup from './learner/Signup'
+
 import { setAuthLearner, setAuthAdmin, setAlerts } from '../redux/actions'
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { getAuthLearner, getAuthAdmin } from './../appdata'
@@ -45,7 +51,6 @@ class App extends React.Component
     const alerts = this.props.alerts || []
         , { user: authLearner } = this.props.authLearner
         , { user: authAdmin } = this.props.authAdmin
-        , Mock = () => <div>some future component</div>
 
     if ( undefined === authLearner || undefined === authAdmin ) 
       return <div className="flex items-center h-full">
@@ -79,16 +84,19 @@ class App extends React.Component
               ? <Route path='/admin/inquiries' exact render={ props => <Inquiries {...this.props} {...props} /> } />
               : <Redirect to='/admin/login?next=/admin/inquiries' from='/admin/inquiries' /> }
             <Route path='/learner/login' exact render={ props => <Login {...this.props} {...props} data_key='Learner' /> } />
-            <Route path='/learner/signup' exact render={ props => <Mock {...this.props} {...props} /> } />
+            <Route path='/learner/signup' exact render={ props => <Signup {...this.props} {...props} /> } />
             { !! authLearner
-              ? <Route path='/learner/programs' exact render={ props => <Mock {...this.props} {...props} /> } />
+              ? <Route path='/learner/programs' exact render={ props => <LearnerPrograms {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/programs' from='/learner/programs' /> }
             { !! authLearner
-              ? <Route path='/learner/programs/:id/courses' exact render={ props => <Mock {...this.props} {...props} /> } />
+              ? <Route path='/learner/programs/:id/courses' exact render={ props => <LearnerCourses {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/programs/:id/courses' from='/learner/programs/:id/courses' /> }
             { !! authLearner
-              ? <Route path='/learner/inquiries' exact render={ props => <Mock {...this.props} {...props} /> } />
+              ? <Route path='/learner/inquiries' exact render={ props => <MyInquiries {...this.props} {...props} /> } />
               : <Redirect to='/learner/login?next=/learner/inquiries' from='/learner/inquiries' /> }
+            { !! authLearner
+              ? <Route path='/learner/inquiries/create' exact render={ props => <NewInquiry {...this.props} {...props} /> } />
+              : <Redirect to='/learner/login?next=/learner/inquiries/create' from='/learner/inquiries/create' /> }
             <Route render={ props => <div>404 - page not found</div> } />
           </Switch>
         </div>
