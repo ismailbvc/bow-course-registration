@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode development",
-    "build": "webpack --mode production",
-    "serve": "webpack serve --mode development",
+    "maybe-install": "test -d node_modules || npm install",
+    "start": "npm run maybe-install; webpack --mode development",
+    "build": "npm run maybe-install; webpack --mode production",
+    "serve": "npm run maybe-install; webpack serve --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "elhardoum",
