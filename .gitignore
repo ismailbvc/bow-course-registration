@@ -1,3 +1,5 @@
 node_modules
-public/app.js
-public/index.html
+www/public/app.js
+www/public/*.LICENSE.txt
+www/public/index.html
+.env
