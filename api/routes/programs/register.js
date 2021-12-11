@@ -3,7 +3,7 @@ module.exports = async (req, res) =>
   if ( ! res.locals.learner.user )
     return res.status(401).json(null)
 
-  const programs = require('./../../model/programs')
+  const programs = require('./../../model/Programs')
       , program = await programs.getOneBy('id', req.params.id)
       , learner = res.locals.learner.user
 

@@ -5,6 +5,7 @@ module.exports = new class Util
     password: process.env.SA_PASSWORD,
     database: process.env.DB_NAME,
     server: process.env.DB_HOST,
+    port: +process.env.DB_PORT || 1433,
     pool: {
       max: 10,
       min: 0,
